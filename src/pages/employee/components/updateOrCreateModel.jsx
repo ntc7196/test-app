@@ -33,10 +33,10 @@ class UpdateModel extends React.Component {
     if (this.props.data?.uuid) {
 
       employeeApi.update(this.props.data?.uuid, {
-        name: this.state.name ? this.state.name : undefined,
-        dept: this.state.dept ? this.state.dept : undefined,
-        phone: this.state.phone ? this.state.phone : undefined,
-        address: this.state.address ? this.state.address : undefined
+        name: this.state.name ? this.state.name : this.props.data.name,
+        dept: this.state.dept ? this.state.dept : this.props.data.dept,
+        phone: this.state.phone ? this.state.phone : this.props.data.phone,
+        address: this.state.address ? this.state.address : this.props.data.address
       })
     } else { // create
       employeeApi.create(
