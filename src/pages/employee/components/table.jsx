@@ -18,19 +18,15 @@ class EmployeeTable extends React.Component {
           this.props.refeshList()
         }
       )
-      .catch(
-        err => {
-          alert("error deleting employee: " + err.message);
-        });
   }
   render() {
     return (
-      <Table striped bordered hover>
+      <Table striped bordered hover className="tableFont">
         <thead>
           <tr>
-            <th>UUid</th>
+            <th>UUID</th>
             <th>Name</th>
-            <th>Dept</th>
+            <th>Department</th>
             <th>Phone</th>
             <th>Address</th>
             <th>Action</th>

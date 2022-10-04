@@ -22,13 +22,13 @@ class EmployeeList extends React.Component {
     employeeApi.getList()
       .then(
         data => {
-          console.log(data);
-          this.setState({ "listEmployee": data })
+          this.setState({ "listEmployee": data.data })
         }
       )
       .catch(
         err => {
-          this.setState({ "listEmployee": [] })
+            alert(err.message)
+            this.setState({ "listEmployee": [] })
         }
       )
   }
@@ -36,14 +36,16 @@ class EmployeeList extends React.Component {
   render() {
     return (
       <div className="employees">
-        employee
-        <Button color="primary" style={{ "float": "left" }}
+        <Button color="primary" className="button-add"
           onClick={() => this.setState({ openAddNew: true })}> Add </Button>
-        <EmployeeTable
-          data={this.state.listEmployee}
-          update={(data) => { this.setState({ uuid: data }) }}
-          refeshList={() => this.updateList()}
-        ></EmployeeTable>
+        <div className="col-12">
+          <EmployeeTable
+            data={this.state.listEmployee}
+            update={(data) => { this.setState({ uuid: data }) }}
+            refeshList={() => this.updateList()}
+          ></EmployeeTable>
+        </div>
+    
         {
           this.state.uuid &&
           <UpdateModel

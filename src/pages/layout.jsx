@@ -5,14 +5,14 @@ import { Navbar, Nav, NavItem, NavLink } from "reactstrap";
 class Layout extends React.Component {
   render() {
     return (
-      <div>
+      <div className="container">
         <Navbar color="light" light expand="md">
           <Nav className="mr-auto" navbar>
             <NavItem>
               <NavLink href="/">Home</NavLink>
             </NavItem>
             <NavItem>
-              <Link to="/employees">Employees</Link>
+              <NavLink href="/employees">Employees</NavLink>
             </NavItem>
           </Nav>
         </Navbar>

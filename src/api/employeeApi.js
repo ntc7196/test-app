@@ -24,7 +24,7 @@ export const EmployeeApi = {
   },
 
   update: (id, payload) => {
-    return api.patch(`/employee/${id}`, payload)
+    return api.put(`/employee/${id}`, payload)
       .then(res => {
         return res.data
       })
