@@ -1,9 +1,6 @@
 package com.cmc.trans.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Employee")
@@ -20,6 +17,9 @@ public class Employee {
 	private String phone;
 	@Column(name = "e_address")
 	private String address;
+
+	@Version
+	private Integer version;
 
 	public String getUuid() {
 		return uuid;
@@ -59,5 +59,13 @@ public class Employee {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 }

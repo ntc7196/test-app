@@ -27,10 +27,9 @@ public class EmployeeWriteService {
         return employeeRepo.save(employee) != null;
     }
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Transactional(readOnly = false, rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Employee updateEmployee(String id, Employee emp) {
-        Employee empInfo = employeeRepo.findById(id).orElse(null);
+    public Employee updateEmployee(String id, Employee emp) throws InterruptedException {
+        Employee empInfo = employeeRepo.findEmployeeByUuid(id).orElse(null);
         if (empInfo == null) {
             return null;
         } else {

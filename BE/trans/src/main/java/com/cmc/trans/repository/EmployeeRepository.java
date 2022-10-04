@@ -10,8 +10,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, String>{
+
+    @Lock(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
+    Optional<Employee> findEmployeeByUuid(String uuId);
 
     @Modifying
     //@Lock(LockModeType.PESSIMISTIC_WRITE)
