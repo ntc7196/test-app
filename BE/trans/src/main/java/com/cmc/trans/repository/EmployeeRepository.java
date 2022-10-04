@@ -14,22 +14,22 @@ import org.springframework.data.repository.query.Param;
 public interface EmployeeRepository extends JpaRepository<Employee, String>{
 
     @Modifying
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    //@Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query(nativeQuery = true, value = "UPDATE Employee SET e_name = :name WHERE uuid = :id")
     void updateEmployeeName(@Param("name") String name, @Param("id") String id);
     
     @Modifying
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    //@Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query(nativeQuery = true, value = "UPDATE Employee SET e_dept = :dept WHERE uuid = :id")
     void updateEmployeeDept(@Param("dept") String name, @Param("id") String id);
     
     @Modifying
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    //@Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query(nativeQuery = true, value = "UPDATE Employee SET e_phone = :phone WHERE uuid = :id")
     void updateEmployeePhone(@Param("phone") String name, @Param("id") String id);
     
     @Modifying
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    //@Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query(nativeQuery = true, value = "UPDATE Employee SET e_address = :address WHERE uuid = :id")
     void updateEmployeeAddress(@Param("address") String name, @Param("id") String id);
     
