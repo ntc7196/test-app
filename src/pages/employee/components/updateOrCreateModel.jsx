@@ -3,7 +3,7 @@
 import React from 'react';
 import {
   Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label,
-  Input
+  Input, Alert
 } from 'reactstrap';
 import employeeApi from "../../../api/employeeApi";
 
@@ -16,8 +16,15 @@ class UpdateModel extends React.Component {
       dept: '',
       phone: '',
       address: '',
+      errorMessages: '',
+      successMessages: '',
+      employee: null,
+      haveChange: false
     };
-
+    if (props.uuid) {
+      employeeApi.get(props.uuid)
+        .then(response => this.setState({ employee: response }))
+    }
     this.toggle = this.toggle.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.confirm = this.confirm.bind(this);
@@ -30,14 +37,27 @@ class UpdateModel extends React.Component {
   }
   confirm() {
     // update
-    if (this.props.data?.uuid) {
-
-      employeeApi.update(this.props.data?.uuid, {
-        name: this.state.name ? this.state.name : this.props.data.name,
-        dept: this.state.dept ? this.state.dept : this.props.data.dept,
-        phone: this.state.phone ? this.state.phone : this.props.data.phone,
-        address: this.state.address ? this.state.address : this.props.data.address
+    if (this.props.uuid && this.state.haveChange) {
+      employeeApi.update(this.props.uuid, {
+        name: this.state.name ?? undefined,
+        dept: this.state.dept ?? undefined,
+        phone: this.state.phone ?? undefined,
+        address: this.state.address ?? undefined
       })
+        .then(res => {
+          this.setState({
+            employee: res,
+            successMessages: res.message || 'Update employee success'
+          });
+        })
+        .catch(err => {
+          if (err.code === 400) {
+            this.setState({ errorMessages: err.message });
+          } else {
+            alert(err.message);
+            window.location.reload();
+          }
+        });
     } else { // create
       employeeApi.create(
         {
@@ -47,6 +67,19 @@ class UpdateModel extends React.Component {
           address: this.state.address
         }
       )
+        .then(res => {
+          alert(res.message || 'Create employee success');
+          this.toggle();
+          this.props.refeshList();
+        })
+        .catch(err => {
+          if (err.code === 400) {
+            this.setState({ errorMessages: err.message });
+          } else {
+            alert(err.message);
+            window.location.reload();
+          }
+        });
     }
   }
 
@@ -57,6 +90,9 @@ class UpdateModel extends React.Component {
 
     this.setState({
       [name]: value,
+      errorMessages: '',
+      successMessages: '',
+      haveChange: true
     });
   }
 
@@ -64,40 +100,46 @@ class UpdateModel extends React.Component {
     return (
       <div>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}> {this.props.data?.uuid ? "Update Employee:" + this.props.data.uuid : "Add new employee"}</ModalHeader>
+          <ModalHeader toggle={this.toggle}> {this.props.uuid ? "Update Employee: " + this.props.uuid : "Add new employee"}</ModalHeader>
           <ModalBody>
+            {
+              this.state.errorMessages &&
+              <Alert color="danger">
+                {this.state.errorMessages}
+              </Alert>
+            }
             <Form name='updateEmployee'>
               <FormGroup>
                 <Label for="exampleEmail">Name</Label>
                 <Input type="text" name="name" placeholder="Name"
-                  defaultValue={this.props.data?.name}
+                  defaultValue={this.state.employee?.name}
                   onChange={(e) => this.handleChange(e)} />
               </FormGroup>
 
               <FormGroup>
                 <Label for="exampleEmail">Dept</Label>
                 <Input type="text" name="dept" placeholder="Dept"
-                  defaultValue={this.props.data?.dept}
+                  defaultValue={this.state.employee?.dept}
                   onChange={(e) => this.handleChange(e)} />
               </FormGroup>
 
               <FormGroup>
                 <Label for="exampleEmail">Phone</Label>
                 <Input type="text" name="phone" placeholder="Phone"
-                  defaultValue={this.props.data?.phone}
+                  defaultValue={this.state.employee?.phone}
                   onChange={(e) => this.handleChange(e)} />
               </FormGroup>
 
               <FormGroup>
                 <Label for="exampleEmail">Address</Label>
                 <Input type="text" name="address" placeholder="Address"
-                  defaultValue={this.props.data?.address}
+                  defaultValue={this.state.employee?.address}
                   onChange={(e) => this.handleChange(e)} />
               </FormGroup>
             </Form>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.confirm}>Ok</Button>{' '}
+            <Button color="primary" onClick={this.confirm} disabled={!this.state.haveChange}>Ok</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
           </ModalFooter>
         </Modal>

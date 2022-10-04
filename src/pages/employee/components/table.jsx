@@ -13,8 +13,10 @@ class EmployeeTable extends React.Component {
   delete(id) {
     EmployeeApi.delete(id)
       .then(
-        res =>
-          alert("delete success")
+        res => {
+          alert("delete success");
+          this.props.refeshList()
+        }
       )
   }
   render() {
@@ -41,7 +43,7 @@ class EmployeeTable extends React.Component {
                   <td>{item.phone}</td>
                   <td>{item.address}</td>
                   <td>
-                    <Button color="primary" onClick={() => this.props.update(item)}>Update</Button>
+                    <Button color="primary" onClick={() => this.props.update(item.uuid)}>Update</Button>
                     <Button color="danger" onClick={() => this.delete(item.uuid)} style={{ "margin-left": "5px" }}>Delete</Button>
                   </td>
                 </tr>

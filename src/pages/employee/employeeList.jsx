@@ -9,11 +9,16 @@ class EmployeeList extends React.Component {
     super(props);
     this.state = {
       listEmployee: [],
-      updateData: null,
+      uuid: null,
       openUpdate: false
     };
+    this.updateList = this.updateList.bind(this);
   }
   componentDidMount() {
+    this.updateList();
+  }
+
+  updateList() {
     employeeApi.getList()
       .then(
         data => {
@@ -22,9 +27,7 @@ class EmployeeList extends React.Component {
         }
       )
       .catch(
-        er => {
-          console.log(er);
-
+        err => {
           this.setState({ "listEmployee": [] })
         }
       )
@@ -36,18 +39,24 @@ class EmployeeList extends React.Component {
         employee
         <Button color="primary" style={{ "float": "left" }}
           onClick={() => this.setState({ openAddNew: true })}> Add </Button>
-        <EmployeeTable data={this.state.listEmployee} update={(data) => { this.setState({ updateData: data }) }}></EmployeeTable>
+        <EmployeeTable
+          data={this.state.listEmployee}
+          update={(data) => { this.setState({ uuid: data }) }}
+          refeshList={() => this.updateList()}
+        ></EmployeeTable>
         {
-          this.state.updateData &&
+          this.state.uuid &&
           <UpdateModel
-            data={this.state.updateData}
-            onClose={() => this.setState({ openAddNew: false, updateData: null })}
+            uuid={this.state.uuid}
+            onClose={() => this.setState({ openAddNew: false, uuid: null })}
+            refeshList={() => this.updateList()}
           />
         }
         {
           this.state.openAddNew &&
           <UpdateModel
-            onClose={() => this.setState({ openAddNew: false, updateData: null })}
+            onClose={() => this.setState({ openAddNew: false, uuid: null })}
+            refeshList={() => this.updateList()}
           />
         }
       </div>
