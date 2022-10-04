@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cmc.trans.model.Employee;
 import com.cmc.trans.repository.EmployeeRepository;
+import org.springframework.transaction.annotation.Isolation;
 
 @Service
 public class EmployeeReadService {
@@ -15,7 +16,7 @@ public class EmployeeReadService {
 	@Autowired
 	private EmployeeRepository employeeRepo;
 
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
 	public List<Employee> selectEmployees() {
 		return employeeRepo.findAll();
 	}
