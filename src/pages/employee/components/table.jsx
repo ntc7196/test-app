@@ -18,6 +18,10 @@ class EmployeeTable extends React.Component {
           this.props.refeshList()
         }
       )
+      .catch(
+        err => {
+          alert("error deleting employee: " + err.message);
+        });
   }
   render() {
     return (

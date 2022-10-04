@@ -108,33 +108,48 @@ class UpdateModel extends React.Component {
                 {this.state.errorMessages}
               </Alert>
             }
+            {
+              this.state.successMessages &&
+              <Alert color="success">
+                {this.state.successMessages}
+              </Alert>
+            }
+
             <Form name='updateEmployee'>
               <FormGroup>
                 <Label for="exampleEmail">Name</Label>
                 <Input type="text" name="name" placeholder="Name"
                   defaultValue={this.state.employee?.name}
-                  onChange={(e) => this.handleChange(e)} />
+                  onChange={(e) => this.handleChange(e)}
+                  valid={this.state.name && this.state.successMessages !== ""}
+                />
               </FormGroup>
 
               <FormGroup>
                 <Label for="exampleEmail">Dept</Label>
                 <Input type="text" name="dept" placeholder="Dept"
                   defaultValue={this.state.employee?.dept}
-                  onChange={(e) => this.handleChange(e)} />
+                  onChange={(e) => this.handleChange(e)}
+                  valid={this.state.dept && this.state.successMessages !== ""}
+                />
               </FormGroup>
 
               <FormGroup>
                 <Label for="exampleEmail">Phone</Label>
                 <Input type="text" name="phone" placeholder="Phone"
                   defaultValue={this.state.employee?.phone}
-                  onChange={(e) => this.handleChange(e)} />
+                  onChange={(e) => this.handleChange(e)}
+                  valid={this.state.phone && this.state.successMessages !== ""}
+                />
               </FormGroup>
 
               <FormGroup>
                 <Label for="exampleEmail">Address</Label>
                 <Input type="text" name="address" placeholder="Address"
                   defaultValue={this.state.employee?.address}
-                  onChange={(e) => this.handleChange(e)} />
+                  onChange={(e) => this.handleChange(e)}
+                  valid={this.state.address && this.state.successMessages !== ""}
+                />
               </FormGroup>
             </Form>
           </ModalBody>
