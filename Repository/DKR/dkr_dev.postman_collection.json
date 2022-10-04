@@ -1,0 +1,101 @@
+{
+	"info": {
+		"_postman_id": "1719e34f-5227-4dce-b262-2ebb8457ffc3",
+		"name": "dkr_dev",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetListEmployee",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/employees",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "InsertEmployee",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"LE Tien Ha 2\",\r\n    \"dept\": \"CM DKR\",\r\n    \"phone\": \"00000002332\",\r\n    \"address\": \"CMC DVH\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/employee",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateEmployee",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"name\": \"LE Tien Ha 2222\",\r\n        \"dept\": \"CM DKR 3323\",\r\n        \"phone\": \"00000002332\",\r\n        \"address\": \"CMC DVH 323\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/employee/1e394183-c6ac-4a37-a5a3-e345d8958d5f",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employee",
+						"1e394183-c6ac-4a37-a5a3-e345d8958d5f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteEmployee",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/employee/1e394183-c6ac-4a37-a5a3-e345d8958d5f",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employee",
+						"1e394183-c6ac-4a37-a5a3-e345d8958d5f"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
