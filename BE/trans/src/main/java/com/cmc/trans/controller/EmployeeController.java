@@ -21,66 +21,45 @@ public class EmployeeController {
     private EmployeeReadService readService;
     @Autowired
     private EmployeeWriteService writeService;
-    String ERROR_MESSAGE = "failed";
-    String SUCCESS_MESSAGE = "succeed";
+    String ERROR_MESSAGE = "Update failed";
+    String SUCCESS_MESSAGE = "Update succeed";
+    String CRETE_SUCCEED="Create succeed";
+    String SUCCEED="Succeed";
 
     @GetMapping(value = "/employees")
     public ResponseEntity<?> getEmployees() throws JsonProcessingException {
-        try {
-            String a = "123";
-            String b = a.substring(0,19);
             List<Employee> employees = readService.selectEmployees();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseDataAPI(employees));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDataAPI(ERROR_MESSAGE));
-        }
     }
 
     @PostMapping(value = "/employee")
     public ResponseEntity<?> saveEmployee(@RequestBody Employee emp) throws SQLException {
-        try {
             if (writeService.saveEmployee(emp)) {
-                return ResponseEntity.status(HttpStatus.OK).body(new ResponseDataAPI(SUCCESS_MESSAGE));
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseDataAPI(CRETE_SUCCEED));
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDataAPI(ERROR_MESSAGE));
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDataAPI(ERROR_MESSAGE));
             }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDataAPI(ERROR_MESSAGE));
-        }
-
     }
 
     @PutMapping(value = "/employee/{id}")
-    public ResponseEntity<?> updateEmployee(@PathVariable(value = "id") String id, @RequestBody Employee emp) throws SQLException {
-        try {
+    public ResponseEntity<?> updateEmployee(@PathVariable(value = "id") String id, @RequestBody Employee emp) throws SQLException, InterruptedException {
             Employee employee = writeService.updateEmployee(id, emp);
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseDataAPI(SUCCESS_MESSAGE, employee));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDataAPI(ERROR_MESSAGE));
-        }
+
     }
 
     @GetMapping(value = "/employee/{id}")
     public ResponseEntity<?> getEmployee(@PathVariable(value = "id") String id) throws SQLException {
-        try {
-            Employee afterUpdateInfo = readService.getEmployee(id);
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDataAPI(SUCCESS_MESSAGE, afterUpdateInfo));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDataAPI(ERROR_MESSAGE));
-        }
+            Employee emp = readService.getEmployee(id);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDataAPI(SUCCEED, emp));
     }
 
     @DeleteMapping(value = "/employee/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable(value = "id") String id) throws SQLException {
-        try {
-            if (writeService.deleteEmployee(id)) {
-                return ResponseEntity.status(HttpStatus.OK).body(new ResponseDataAPI(SUCCESS_MESSAGE));
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDataAPI(ERROR_MESSAGE));
-            }
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDataAPI(ERROR_MESSAGE));
+        if (writeService.deleteEmployee(id)) {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDataAPI(SUCCEED));
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDataAPI(ERROR_MESSAGE));
         }
     }
 }

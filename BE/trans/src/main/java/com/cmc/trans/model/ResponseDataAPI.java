@@ -22,6 +22,10 @@ public class ResponseDataAPI {
         this.data = data;
     }
 
+    public <T> ResponseDataAPI(String message) {
+        this.message = message;
+    }
+
     public String getMessage() {
         return message;
     }
